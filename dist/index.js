@@ -1,1 +1,1 @@
-"use strict";
+export { WinkNLPConnector } from './models/WinkNLPConnector';
