@@ -10,8 +10,13 @@ export class WinkNLPConnector implements INLPLibraryConnector {
     this.nlp = winkNLP(model);
   }
 
-  async splitText(text: string): Promise<string[]> {
+  async getSentences(text: string): Promise<string[]> {
     const doc = this.nlp.readDoc(text);
     return doc.sentences().out();
+  }
+
+  async getEntities(text: string): Promise<string[]> {
+    const doc = this.nlp.readDoc(text);
+    return doc.entities().out();
   }
 }

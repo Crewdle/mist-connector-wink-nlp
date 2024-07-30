@@ -5,8 +5,12 @@ export class WinkNLPConnector {
     constructor() {
         this.nlp = winkNLP(model);
     }
-    async splitText(text) {
+    async getSentences(text) {
         const doc = this.nlp.readDoc(text);
         return doc.sentences().out();
+    }
+    async getEntities(text) {
+        const doc = this.nlp.readDoc(text);
+        return doc.entities().out();
     }
 }
