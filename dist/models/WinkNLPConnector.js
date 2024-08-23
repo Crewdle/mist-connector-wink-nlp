@@ -15,7 +15,7 @@ export class WinkNLPConnector {
         try {
             const doc = this.nlp.readDoc(text);
             if (types.ner) {
-                const newEntities = doc.entities().out(this.nlp.its.normal);
+                const newEntities = doc.entities().out(this.nlp.its.value);
                 for (const entity of newEntities) {
                     entities.add(entity);
                 }
@@ -23,13 +23,13 @@ export class WinkNLPConnector {
             const words = doc.tokens().out(this.nlp.its.normal);
             const pos = doc.tokens().out(this.nlp.its.pos);
             const newEntities = words.filter((word, index) => {
-                if (types.noun && pos[index] === 'noun') {
+                if (types.noun && pos[index] === 'NOUN') {
                     return true;
                 }
-                if (types.propn && pos[index] === 'propn') {
+                if (types.propn && pos[index] === 'PROPN') {
                     return true;
                 }
-                if (types.verb && pos[index] === 'verb') {
+                if (types.verb && pos[index] === 'VERB') {
                     return true;
                 }
                 return false;
