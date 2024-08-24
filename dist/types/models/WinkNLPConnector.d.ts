@@ -5,4 +5,5 @@ export declare class WinkNLPConnector implements INLPLibraryConnector {
     getSentences(text: string): Promise<string[]>;
     getEntities(text: string, types: INLPEntityTypes): Promise<string[]>;
     getSimilarity(text1: string, text2: string): Promise<number>;
+    private pluralToSingular;
 }

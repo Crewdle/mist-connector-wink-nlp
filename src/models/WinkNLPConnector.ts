@@ -23,7 +23,10 @@ export class WinkNLPConnector implements INLPLibraryConnector {
       if (types.ner) {
         const newEntities = doc.entities().out(this.nlp.its.value);
         for (const entity of newEntities) {
-          entities.add(entity);
+          const singular = this.pluralToSingular(entity);
+          if (typeof singular === 'string' && singular.length > 2) {
+            entities.add(singular);
+          }
         }
       }
       const words = doc.tokens().out(this.nlp.its.normal);
@@ -41,7 +44,10 @@ export class WinkNLPConnector implements INLPLibraryConnector {
         return false
       });
       for (const entity of newEntities) {
-        entities.add(entity);
+        const singular = this.pluralToSingular(entity);
+          if (typeof singular === 'string' && singular.length > 2) {
+            entities.add(singular);
+          }
       }
     } catch (e) {
       console.error(e);
@@ -61,5 +67,12 @@ export class WinkNLPConnector implements INLPLibraryConnector {
     const bow2 = doc2.tokens().out(its.value, as.bow) as Bow;
 
     return similarity.bow.cosine(bow1, bow2);
+  }
+
+  private pluralToSingular(input: string): string {
+    return input
+      .replace(/ies\b/g, 'y')              // Convert words ending in "ies" to "y"
+      .replace(/([ox]|ch|sh)es\b/g, '$1')  // Convert words ending in "oes", "ches", "shes" to "o", "ch", "sh"
+      .replace(/s\b/g, '');                // Remove trailing "s" for simple plurals
   }
 }
